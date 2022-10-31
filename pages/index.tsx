@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import About from '../components/About'
 import Hero from '../components/Hero'
