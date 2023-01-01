@@ -1,21 +1,39 @@
-import React from 'react'
+import Link from 'next/link'
+import React, {useRef} from 'react'
 import {socials} from '../data/socials'
+import { useInView } from '../hooks/useInView'
 
 const Footer:React.FC = () => {
+  const componentRef = useRef<HTMLElement>(null)
+  useInView(componentRef)
+
   return (
-    <section className = "py-24 bg-black">
+    <section className = "py-24 bg-black" ref = {componentRef}>
       <div className = "px-6 mx-auto max-w-7xl">
-        <h1 className = "text-4xl font-extrabold text-white md:text-6xl">Let&apos;s work together.</h1>
-        <a href = "mailto:es23jr@gmail.com" className = "inline-block mt-2 text-white underline">es23jr@gmail.com</a>
-        <p className = "max-w-md mt-4 text-base text-white/60 sm:text-lg lg:text-xl">Interested in working together? Contact me! I&apos;m always looking for new positions.</p>
+        <p className = "text-4xl font-extrabold text-white md:text-6xl">
+          <span>Let&apos;s work together.</span>
+        </p>
+        <Link href = "mailto:es23jr@gmail.com">
+          <p className = "inline-block mt-2 text-white underline">
+            <span>es23jr@gmail.com</span>
+          </p>
+        </Link>
+        <p className = "max-w-md mt-4 text-base text-white/60 sm:text-lg lg:text-xl">
+          <span>Interested in working together? Contact me! I&apos;m always looking for new positions.</span>
+        </p>
         {socials.map((social)=>(
-          <a 
+          <Link
             href = {social.link} 
             key = {social.name}
             rel="noreferrer"
             target = "_blank"
-            className = "inline-block mt-6 mr-3 text-sm text-white opacity-60"
-          >{social.name}</a>
+          >
+            <p 
+              className = "inline-block mt-6 mr-3 text-sm text-white opacity-60"
+            >
+              <span>{social.name}</span>
+            </p>
+          </Link>
         ))}
       </div>
     </section>
