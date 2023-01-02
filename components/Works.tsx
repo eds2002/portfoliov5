@@ -221,10 +221,7 @@ const Works: React.FC = () => {
 
   return (
     <React.Fragment>
-      <section
-        className={`py-16  transition duration-500 ease-[cubic-bezier(.07,.47,.24,.97)]`}
-        ref={componentRef}
-      >
+      <section className={`py-16  transition `} ref={componentRef}>
         <div className="px-6 mx-auto max-w-7xl">
           <div className="flex flex-col divide-y-2">
             {projects.map((project) => (
@@ -232,7 +229,7 @@ const Works: React.FC = () => {
                 className={`flex lg:flex-row flex-col items-center justify-center py-10`}
                 key={project.title}
               >
-                <div className="flex flex-col items-start justify-center flex-1 w-full ">
+                <div className="flex flex-col items-start justify-center flex-1 w-full text-primary-50">
                   <p
                     className="text-3xl font-bold cursor-pointer md:text-3xl"
                     onClick={() => handleProjectClick(project.title)}
@@ -260,7 +257,7 @@ const Works: React.FC = () => {
                   </div>
                 </div>
                 <div
-                  className="relative flex-1 w-full h-full mt-4 overflow-hidden cursor-pointer bg-primary-750 rounded-xl aspect-video md:mt-0"
+                  className="relative flex-1 w-full h-full mt-4 overflow-hidden bg-gray-200 cursor-pointer rounded-xl aspect-video md:mt-0"
                   onClick={() => handleProjectClick(project.title)}
                 >
                   <Image
@@ -288,7 +285,8 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.05,
+      staggerChildren: 0.01,
+      delay: 0,
     },
   },
 }
@@ -320,23 +318,23 @@ const ExpandProject: React.FC<ExpandProps> = ({ expand, project }) => {
         initial={{ y: '100vh' }}
         animate={{ y: 0 }}
         exit={{ y: '100vh' }}
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
-        className={`fixed inset-0  bg-white  overflow-y-scroll`}
+        transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
+        className={`fixed inset-0  bg-primary-850  overflow-y-scroll z-20`}
         ref={divRef}
       >
         <div className="mx-auto mb-16">
-          <div className="sticky top-0 z-10 bg-background backdrop-blur-lg">
-            <div className="px-6 mx-auto max-w-7xl">
+          <div className="sticky top-0 z-10 text-primary-50 backdrop-blur-lg">
+            <div className="px-4 mx-auto max-w-7xl">
               <motion.p
                 variants={button}
-                className="py-3 text-sm cursor-pointer pointer-events-auto text-onBackground w-max"
+                className="py-3 text-sm cursor-pointer pointer-events-auto text-primary-50 w-max"
                 onClick={() => handleBackButton()}
               >
                 Back to home
               </motion.p>
             </div>
           </div>
-          <div className="px-4 mx-auto max-w-7xl">
+          <div className="px-4 mx-auto max-w-7xl ">
             {projects.map((prj) => (
               <motion.div
                 variants={container}
@@ -400,7 +398,7 @@ const ExpandProject: React.FC<ExpandProps> = ({ expand, project }) => {
                         href={prj.webLink}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-4 py-2 text-white bg-black rounded-full"
+                        className="px-4 py-2 rounded-full text-primary-900 bg-primary-50"
                       >
                         Visit site
                       </motion.a>
@@ -409,7 +407,7 @@ const ExpandProject: React.FC<ExpandProps> = ({ expand, project }) => {
                         href={prj.gitLink}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-4 py-2 text-black border border-black rounded-full"
+                        className="px-4 py-2 border border-white rounded-full text-primary-50"
                       >
                         View Repository
                       </motion.a>
@@ -441,7 +439,7 @@ const ExpandProject: React.FC<ExpandProps> = ({ expand, project }) => {
                               </motion.span>
                             </p>
                           )}
-                          <div className="relative w-full h-full p-6 mb-10 bg-gray-100 md:py-12 md:px-32">
+                          <div className="relative w-full h-full p-6 mb-10 bg-primary-800 md:py-12 md:px-32">
                             {image.urls.map((url) => (
                               <div
                                 key={url}
