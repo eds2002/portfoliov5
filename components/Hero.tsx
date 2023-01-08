@@ -9,7 +9,7 @@ const Hero: React.FC = () => {
 
   return (
     <section
-      className={`w-full mx-auto  py-28 md:py-32  transition duration-500 ease-[cubic-bezier(.07,.47,.24,.97)] max-w-7xl border-b-4 px-6 border-primary-50`}
+      className={`w-full mx-auto  py-28 md:py-32  transition duration-500 ease-[cubic-bezier(.07,.47,.24,.97)] max-w-7xl border-b-4 px-6 border-primary-800`}
       ref={componentRef}
     >
       <div>

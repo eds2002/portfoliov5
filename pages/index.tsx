@@ -44,7 +44,7 @@ function Loader() {
           initial={{ y: 0 }}
           animate={{ y: index > 5 ? '-100vh' : 0 }}
           transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
-          className="fixed inset-0 flex items-center justify-center bg-primary-50 text-primary-900"
+          className="fixed inset-0 flex items-center justify-center bg-primary-50 text-primary-900 z-[9999999]"
         >
           {/* Background, hides the circle from the bottom */}
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-primary-50">

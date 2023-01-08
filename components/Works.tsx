@@ -8,6 +8,58 @@ import { useInView } from '../hooks/useInView'
 import { AnimatePresence, motion } from 'framer-motion'
 const projects = [
   {
+    title: 'Transakt (BETA)',
+    stack: ['React', 'Next 13', 'Tailwind', 'Vercel'],
+    shortDesc: 'A personal finance app.',
+    longDesc:
+      'Transakt is a personal project designed to take back control of your finances.',
+    objective:
+      'Transakt is a side project I decided to create when I wanted to get my finances back in control.',
+    responsibility: 'UI Design & Development',
+    webLink: 'https://www.about.transaktfinance.com',
+    gitLink: '',
+    thumbnail:
+      'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/hufi%2Fwww.hufistore.com_.png?alt=media&token=eb1c7f84-db5a-440a-a4f1-c63855f982ee',
+    deskImages: [
+      {
+        heading: 'A solution to your struggling finances. All in your pocket.',
+        paragraph: '',
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/transakt%2FLearn%20How%20To%20Start%20And%20Grow%20A%20Fashion%20Business%20(1).png?alt=media&token=9fd05f5b-a7cb-48d0-9af9-632b2b51505a',
+        ],
+      },
+      {
+        heading: '',
+        paragraph: '',
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/transakt%2FLearn%20How%20To%20Start%20And%20Grow%20A%20Fashion%20Business.png?alt=media&token=044c35dc-6f9d-46c3-8eed-a7061c8a5ec6',
+        ],
+      },
+      {
+        heading: 'Visualize the important',
+        paragraph:
+          "Transakt is designed to help you visualize what you don't usually see with normal checkbook apps.",
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/transakt%2Fwww.transaktfinance.com_dashboard_tab%3Daccounts%26account%3D6683c8ae%20(1).png?alt=media&token=0eb84b06-be99-4b12-a445-572a5b84b88a',
+        ],
+      },
+      {
+        heading: 'A place to view the important',
+        paragraph: '',
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/transakt%2Fwww.transaktfinance.com_dashboard_tab%3Ddashboard%20(1).png?alt=media&token=ef06fd23-26b5-4301-a333-ae29baac7cf6',
+        ],
+      },
+      {
+        heading: '',
+        paragraph: '',
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/transakt%2Fwww.transaktfinance.com_dashboard_tab%3Daccounts%26account%3D6683c8ae.png?alt=media&token=ff0244c9-d3a8-4842-8abc-02847dc4b651',
+        ],
+      },
+    ],
+  },
+  {
     title: 'Hufi',
     stack: [
       'React',
@@ -223,8 +275,8 @@ const Works: React.FC = () => {
     <React.Fragment>
       <section className={`py-16  transition `} ref={componentRef}>
         <div className="px-6 mx-auto max-w-7xl">
-          <div className="flex flex-col divide-y-2">
-            {projects.map((project) => (
+          <div className="flex flex-col divide-primary-400">
+            {projects.map((project, index: number) => (
               <div
                 className={`flex lg:flex-row flex-col items-center justify-center py-10`}
                 key={project.title}
@@ -257,16 +309,23 @@ const Works: React.FC = () => {
                   </div>
                 </div>
                 <div
-                  className="relative flex-1 w-full h-full mt-4 overflow-hidden bg-gray-200 cursor-pointer rounded-xl aspect-video md:mt-0"
+                  className={`
+                    ${index === 0 && 'bg-[#475259] text-white'}
+                    ${index === 1 && 'bg-[#63797F] text-white'}
+                    ${index === 2 && 'bg-[#82A3A3] text-white'}
+                    ${index === 3 && 'bg-[#A9CEC2] text-white'}
+                    relative  flex-1 w-full h-full mt-4 overflow-hidden  cursor-pointer rounded-xl aspect-video md:mt-0 text-5xl font-semibold flex items-center justify-center
+                  `}
                   onClick={() => handleProjectClick(project.title)}
                 >
-                  <Image
+                  {project.title}
+                  {/* <Image
                     fill
                     quality={100}
                     src={project?.thumbnail}
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full bg-red-500"
                     alt={''}
-                  />
+                  /> */}
                 </div>
               </div>
             ))}
@@ -398,25 +457,27 @@ const ExpandProject: React.FC<ExpandProps> = ({ expand, project }) => {
                         href={prj.webLink}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-4 py-2 rounded-full text-primary-900 bg-primary-50"
+                        className="flex items-center justify-center px-4 py-2 rounded-full text-primary-900 bg-primary-50"
                       >
                         Visit site
                       </motion.a>
-                      <motion.a
-                        variants={button}
-                        href={prj.gitLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-4 py-2 border border-white rounded-full text-primary-50"
-                      >
-                        View Repository
-                      </motion.a>
+                      {prj.gitLink !== '' && (
+                        <motion.a
+                          variants={button}
+                          href={prj.gitLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center justify-center px-4 py-2 border border-white rounded-full text-primary-50"
+                        >
+                          View Repository
+                        </motion.a>
+                      )}
                     </div>
                     <div className="flex flex-col items-center justify-center mt-10">
                       {prj?.deskImages?.map((image) => (
                         <>
                           {image.heading != '' && (
-                            <p className="w-full pt-10 mt-24 mr-auto overflow-hidden text-3xl font-bold border-t-4 border-black sm:text-4xl lg:text-5xl">
+                            <p className="w-full pt-10 mt-24 mr-auto overflow-hidden text-3xl font-bold border-t-4 border-primary-750 sm:text-4xl lg:text-5xl">
                               <motion.span
                                 variants={item}
                                 whileInView="show"
@@ -439,11 +500,11 @@ const ExpandProject: React.FC<ExpandProps> = ({ expand, project }) => {
                               </motion.span>
                             </p>
                           )}
-                          <div className="relative w-full h-full p-6 mb-10 bg-primary-800 md:py-12 md:px-32">
+                          <div className="relative flex flex-col items-center justify-center w-full h-full gap-10 p-6 mb-10 overflow-hidden bg-primary-800 md:py-12 md:px-32">
                             {image.urls.map((url) => (
                               <div
                                 key={url}
-                                className="relative flex flex-col min-w-[50vw] min-h-[50vh] gap-10 "
+                                className="relative flex flex-col items-center justify-center w-full h-full gap-10 aspect-video"
                               >
                                 <Image
                                   fill
