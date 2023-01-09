@@ -150,7 +150,7 @@ const projects = [
     ],
     shortDesc: 'A web app to manage your finances.',
     longDesc:
-      'Poshly is a personal project I decided to create when I realized my finances were not exactly great. I figured storing my most used credit cards in one app would solve this issue.',
+      'Poshly is a personal project I decided to create when I realized my finances were not exactly great. I figured storing my most used credit cards in one app would solve this issue. NOTE: Please do NOT use any of your real information.',
     objective:
       'My objective was to create an app to help me understand my credit card debt. I made sure to include the penalty costs of not paying off a debt that was due, and how long I had to pay off that debt.',
     responsibility: 'UI Design & Development',
