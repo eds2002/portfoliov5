@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
 
   return (
     <section
-      className="py-24 bg-primary-50 text-primary-900"
+      className="h-screen py-24 bg-primary-50 text-primary-900"
       ref={componentRef}
     >
       <div className="px-6 mx-auto max-w-7xl">

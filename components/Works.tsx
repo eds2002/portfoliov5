@@ -5,12 +5,20 @@ import { useState } from 'react'
 import slugify from '../utils/slugify'
 import Footer from './Footer'
 import { useInView } from '../hooks/useInView'
-import { AnimatePresence, motion } from 'framer-motion'
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useScroll,
+  useTransform,
+} from 'framer-motion'
+import Link from 'next/link'
+import { socials } from '../data/socials'
 const projects = [
   {
     title: 'Transakt (BETA)',
     stack: ['React', 'Next 13', 'Tailwind', 'Vercel'],
-    shortDesc: 'A personal finance app.',
+    shortDesc: 'Personal Finance',
     longDesc:
       'Transakt is a personal project designed to take back control of your finances.',
     objective:
@@ -73,7 +81,7 @@ const projects = [
       'Cheerio',
       'Next API Routing',
     ],
-    shortDesc: 'A general e-commerce stored based out of California.',
+    shortDesc: 'E-commerce ',
     longDesc:
       'Hufi is a dropshipping store based in California selling all sorts of products.',
     objective:
@@ -148,7 +156,7 @@ const projects = [
       'AWS Amplify',
       'Plaid API',
     ],
-    shortDesc: 'A web app to manage your finances.',
+    shortDesc: 'Banking',
     longDesc:
       'Poshly is a personal project I decided to create when I realized my finances were not exactly great. I figured storing my most used credit cards in one app would solve this issue. NOTE: Please do NOT use any of your real information.',
     objective:
@@ -201,7 +209,7 @@ const projects = [
   {
     title: 'Bula',
     stack: ['React', 'Next', 'Tailwind', 'Shopify API'],
-    shortDesc: 'An online microphone store based in New Jersey.',
+    shortDesc: 'E-commerce',
     longDesc:
       'Bula is an online e-commerce store selling wireless microphones based in New Jersey. For a product that is innovative, they needed a website that represented a sense of luxury. They also needed to be able to customize their site in case they needed to change pricing, images, or their description.',
     objective:
@@ -273,7 +281,10 @@ const Works: React.FC = () => {
 
   return (
     <React.Fragment>
-      <section className={`py-16  transition `} ref={componentRef}>
+      <section
+        className={`py-16 relative z-[2] transition `}
+        ref={componentRef}
+      >
         <div className="px-6 mx-auto max-w-7xl">
           <div className="flex flex-col divide-primary-400">
             {projects.map((project, index: number) => (
@@ -281,51 +292,38 @@ const Works: React.FC = () => {
                 className={`flex lg:flex-row flex-col items-center justify-center py-10`}
                 key={project.title}
               >
-                <div className="flex flex-col items-start justify-center flex-1 w-full text-primary-50">
-                  <p
-                    className="text-3xl font-bold cursor-pointer md:text-3xl"
-                    onClick={() => handleProjectClick(project.title)}
-                  >
-                    <span>{project.title}</span>
-                  </p>
-                  <div className="flex gap-x-1">
-                    {project.stack.map((val, key) => (
-                      <React.Fragment key={val}>
-                        {key < 3 && (
-                          <p className="opacity-80">
-                            <span>{val},</span>
-                          </p>
-                        )}
-                      </React.Fragment>
-                    ))}
-                    <p className="opacity-80">
-                      <span>& {project.stack.length - 3} more</span>
+                <div
+                  onClick={() => handleProjectClick(project.title)}
+                  className="flex flex-col items-start justify-center flex-1 w-full text-primary-50 md:justify-between md:flex-row md:items-center group"
+                >
+                  <div className="w-full  group-hover:translate-x-[1%] transition duration-300 py-4 cursor-pointer">
+                    <p
+                      className="text-3xl font-bold transition duration-200 cursor-pointer md:text-7xl xl:text-8xl group-hover:opacity-70"
+                      onClick={() => handleProjectClick(project.title)}
+                    >
+                      <span>{project.title}</span>
                     </p>
+                    <div className="w-full h-px my-2 rounded-full md:hidden bg-primary-600" />
+                    <div className="flex transition duration-200 gap-x-1 md:hidden group-hover:opacity-70">
+                      {project.stack.map((val, key) => (
+                        <React.Fragment key={val}>
+                          {key < 3 && (
+                            <p className="opacity-80 ">
+                              <span>{val},</span>
+                            </p>
+                          )}
+                        </React.Fragment>
+                      ))}
+                      <p className="opacity-80">
+                        <span>& {project.stack.length - 3} more</span>
+                      </p>
+                    </div>
                   </div>
-                  <div className="max-w-sm">
-                    <p className="hidden mt-3 text-base opacity-80 md:max-w-7xl sm:block">
+                  <div className="whitespace-nowrap group-hover:translate-x-[1%] transition duration-300 group-hover:opacity-70">
+                    <p className="hidden mt-3 text-base opacity-80 md:max-w-7xl md:block">
                       <span>{project.shortDesc}</span>
                     </p>
                   </div>
-                </div>
-                <div
-                  className={`
-                    ${index === 0 && 'bg-[#475259] text-white'}
-                    ${index === 1 && 'bg-[#63797F] text-white'}
-                    ${index === 2 && 'bg-[#82A3A3] text-white'}
-                    ${index === 3 && 'bg-[#A9CEC2] text-white'}
-                    relative  flex-1 w-full h-full mt-4 overflow-hidden  cursor-pointer rounded-xl aspect-video md:mt-0 text-5xl font-semibold flex items-center justify-center
-                  `}
-                  onClick={() => handleProjectClick(project.title)}
-                >
-                  {project.title}
-                  {/* <Image
-                    fill
-                    quality={100}
-                    src={project?.thumbnail}
-                    className="object-cover w-full h-full bg-red-500"
-                    alt={''}
-                  /> */}
                 </div>
               </div>
             ))}
@@ -338,6 +336,251 @@ const Works: React.FC = () => {
     </React.Fragment>
   )
 }
+
+const ExpandProject: React.FC<ExpandProps> = ({ expand, project }) => {
+  const ref = useRef<any>(null)
+  const { scrollYProgress } = useScroll({
+    container: ref,
+  })
+
+  const height = useTransform(scrollYProgress, [0.5, 1], ['500%', '0%'])
+  const y = useTransform(scrollYProgress, [0.5, 1], [-350, 0])
+
+  const router = useRouter()
+  const handleBackButton = async () => {
+    router.replace('/', undefined, { shallow: true })
+  }
+
+  return (
+    <React.Fragment>
+      <motion.div
+        initial={{ y: '100vh' }}
+        animate={{ y: 0 }}
+        exit={{ y: '100vh' }}
+        transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
+        className={`fixed inset-0  bg-primary-850  overflow-y-scroll z-20`}
+        ref={ref}
+      >
+        <div className="relative ">
+          <div className="pb-16 mx-auto bg-primary-850 z-[3] relative">
+            <div className="sticky top-0 z-10 text-primary-50 backdrop-blur-lg">
+              <div className="px-4 mx-auto max-w-7xl">
+                <motion.p
+                  variants={button}
+                  className="py-3 text-sm cursor-pointer pointer-events-auto text-primary-50 w-max"
+                  onClick={() => handleBackButton()}
+                >
+                  Back to home
+                </motion.p>
+              </div>
+            </div>
+            <div className="px-4 mx-auto max-w-7xl ">
+              {projects.map((prj) => (
+                <motion.div
+                  variants={container}
+                  initial="hidden"
+                  animate="show"
+                  key={prj.title}
+                >
+                  {slugify(prj.title) === project && (
+                    <>
+                      <div className="mt-24">
+                        <p className="overflow-hidden text-5xl font-extrabold md:text-9xl">
+                          <motion.span variants={item} className="block">
+                            {prj.title}
+                          </motion.span>
+                        </p>
+                        <p className="overflow-hidden text-xl">
+                          <motion.span variants={item} className="block">
+                            {prj.responsibility}
+                          </motion.span>
+                        </p>
+                        <p className="mt-10 text-lg lg:text-2xl opacity-70">
+                          <motion.span variants={item} className="block">
+                            {prj.longDesc}
+                          </motion.span>
+                        </p>
+                        <p className="relative mt-10 overflow-hidden text-2xl font-bold ">
+                          <motion.span variants={item} className="block">
+                            Objective
+                          </motion.span>
+                        </p>
+                        <p className="max-w-xl mt-3 overflow-hidden text-base lg:text-lg opacity-70">
+                          <motion.span variants={item} className="block">
+                            {prj.objective}
+                          </motion.span>
+                        </p>
+                        <p className="overflow-hidden text-2xl font-bold mt-7">
+                          <motion.span variants={item} className="block">
+                            Technologies
+                          </motion.span>
+                        </p>
+                        <div className="flex flex-wrap ">
+                          {prj.stack.map((val) => (
+                            <p
+                              key={val}
+                              className="max-w-xl overflow-hidden text-base lg:text-lg opacity-70"
+                            >
+                              <motion.span
+                                variants={item}
+                                className="block mr-3 "
+                                key={val}
+                              >
+                                {val}
+                              </motion.span>
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex gap-3 mt-10">
+                        <motion.a
+                          variants={button}
+                          href={prj.webLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center justify-center px-4 py-2 rounded-full text-primary-900 bg-primary-50"
+                        >
+                          Visit site
+                        </motion.a>
+                        {prj.gitLink !== '' && (
+                          <motion.a
+                            variants={button}
+                            href={prj.gitLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center justify-center px-4 py-2 border border-white rounded-full text-primary-50"
+                          >
+                            View Repository
+                          </motion.a>
+                        )}
+                      </div>
+                      <div className="flex flex-col items-center justify-center mt-10">
+                        {prj?.deskImages?.map((image) => (
+                          <>
+                            {image.heading != '' && (
+                              <p className="w-full pt-10 mt-24 mb-2 mr-auto overflow-hidden text-3xl font-bold border-t-4 border-primary-750 sm:text-4xl lg:text-5xl">
+                                <motion.span
+                                  variants={item}
+                                  whileInView="show"
+                                  viewport={{ once: true }}
+                                  className="block"
+                                >
+                                  {image?.heading}
+                                </motion.span>
+                              </p>
+                            )}
+                            {image.paragraph != '' && (
+                              <p className="max-w-2xl mt-6 mb-10 mr-auto overflow-hidden sm:text-lg lg:text-xl">
+                                <motion.span
+                                  variants={item}
+                                  whileInView="show"
+                                  viewport={{ once: true }}
+                                  className="block"
+                                >
+                                  {image?.paragraph}
+                                </motion.span>
+                              </p>
+                            )}
+                            <div className="relative flex flex-col items-center justify-center w-full h-full gap-10 p-6 mb-10 overflow-hidden bg-primary-800 md:py-12 md:px-32">
+                              {image.urls.map((url) => (
+                                <div
+                                  key={url}
+                                  className="relative flex flex-col items-center justify-center w-full h-full gap-10 aspect-video"
+                                >
+                                  <Image
+                                    fill
+                                    quality={100}
+                                    key={url}
+                                    src={url}
+                                    alt={'Project image.'}
+                                    className="object-contain w-full h-full min-w-full min-h-full"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+          <div className="absolute bottom-0 top-[unset] translate-y-full w-full circle-container h-[15vh] z-0 select-none pointer-events-none z-[1]">
+            <motion.div
+              initial={{ height: '500%' }}
+              style={{ height }}
+              transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
+              className="absolute w-[150%]  block rounded-[50%] transform-gpu bg-primary-850 left-[50%] -translate-x-[50%] -translate-y-[50%] shadow-xl"
+            />
+          </div>
+        </div>
+        <motion.section
+          style={{ y }}
+          className="h-[70vh] py-24 bg-primary-50 text-primary-900"
+        >
+          <div className="px-6 mx-auto max-w-7xl">
+            <p className="text-4xl font-extrabold md:text-6xl">
+              <motion.span
+                variants={item}
+                whileInView="show"
+                viewport={{ once: true }}
+                className="block"
+              >
+                Let&apos;s work together.
+              </motion.span>
+            </p>
+            <Link href="mailto:es23jr@gmail.com">
+              <p className="inline-block mt-2 underline">
+                <motion.span
+                  variants={item}
+                  whileInView="show"
+                  viewport={{ once: true }}
+                  className="block"
+                >
+                  es23jr@gmail.com
+                </motion.span>
+              </p>
+            </Link>
+            <p className="max-w-md mt-4 text-base sm:text-lg lg:text-xl">
+              <motion.span
+                variants={item}
+                whileInView="show"
+                viewport={{ once: true }}
+                className="block"
+              >
+                Interested in working together? Contact me! I&apos;m always
+                looking for new positions.
+              </motion.span>
+            </p>
+            {socials.map((social) => (
+              <Link
+                href={social.link}
+                key={social.name}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <p className="inline-block mt-6 mr-3 text-sm opacity-60">
+                  <motion.span
+                    variants={item}
+                    whileInView="show"
+                    viewport={{ once: true }}
+                    className="block"
+                  >
+                    {social.name}
+                  </motion.span>
+                </p>
+              </Link>
+            ))}
+          </div>
+        </motion.section>
+      </motion.div>
+    </React.Fragment>
+  )
+}
+
+export default Works
 
 const container = {
   hidden: { opacity: 1 },
@@ -363,173 +606,3 @@ type ExpandProps = {
   expand: boolean
   project: string
 }
-
-const ExpandProject: React.FC<ExpandProps> = ({ expand, project }) => {
-  const router = useRouter()
-  const divRef = useRef<any>(null)
-  const handleBackButton = async () => {
-    router.replace('/', undefined, { shallow: true })
-  }
-
-  return (
-    <React.Fragment>
-      <motion.div
-        initial={{ y: '100vh' }}
-        animate={{ y: 0 }}
-        exit={{ y: '100vh' }}
-        transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
-        className={`fixed inset-0  bg-primary-850  overflow-y-scroll z-20`}
-        ref={divRef}
-      >
-        <div className="mx-auto mb-16">
-          <div className="sticky top-0 z-10 text-primary-50 backdrop-blur-lg">
-            <div className="px-4 mx-auto max-w-7xl">
-              <motion.p
-                variants={button}
-                className="py-3 text-sm cursor-pointer pointer-events-auto text-primary-50 w-max"
-                onClick={() => handleBackButton()}
-              >
-                Back to home
-              </motion.p>
-            </div>
-          </div>
-          <div className="px-4 mx-auto max-w-7xl ">
-            {projects.map((prj) => (
-              <motion.div
-                variants={container}
-                initial="hidden"
-                animate="show"
-                key={prj.title}
-              >
-                {slugify(prj.title) === project && (
-                  <>
-                    <div className="mt-24">
-                      <p className="overflow-hidden text-5xl font-extrabold md:text-9xl">
-                        <motion.span variants={item} className="block">
-                          {prj.title}
-                        </motion.span>
-                      </p>
-                      <p className="overflow-hidden text-xl">
-                        <motion.span variants={item} className="block">
-                          {prj.responsibility}
-                        </motion.span>
-                      </p>
-                      <p className="mt-10 text-lg lg:text-2xl opacity-70">
-                        <motion.span variants={item} className="block">
-                          {prj.longDesc}
-                        </motion.span>
-                      </p>
-                      <p className="relative mt-10 overflow-hidden text-2xl font-bold ">
-                        <motion.span variants={item} className="block">
-                          Objective
-                        </motion.span>
-                      </p>
-                      <p className="max-w-xl mt-3 overflow-hidden text-base lg:text-lg opacity-70">
-                        <motion.span variants={item} className="block">
-                          {prj.objective}
-                        </motion.span>
-                      </p>
-                      <p className="overflow-hidden text-2xl font-bold mt-7">
-                        <motion.span variants={item} className="block">
-                          Technologies
-                        </motion.span>
-                      </p>
-                      <div className="flex flex-wrap ">
-                        {prj.stack.map((val) => (
-                          <p
-                            key={val}
-                            className="max-w-xl overflow-hidden text-base lg:text-lg opacity-70"
-                          >
-                            <motion.span
-                              variants={item}
-                              className="block mr-3 "
-                              key={val}
-                            >
-                              {val}
-                            </motion.span>
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="flex gap-3 mt-10">
-                      <motion.a
-                        variants={button}
-                        href={prj.webLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center justify-center px-4 py-2 rounded-full text-primary-900 bg-primary-50"
-                      >
-                        Visit site
-                      </motion.a>
-                      {prj.gitLink !== '' && (
-                        <motion.a
-                          variants={button}
-                          href={prj.gitLink}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="flex items-center justify-center px-4 py-2 border border-white rounded-full text-primary-50"
-                        >
-                          View Repository
-                        </motion.a>
-                      )}
-                    </div>
-                    <div className="flex flex-col items-center justify-center mt-10">
-                      {prj?.deskImages?.map((image) => (
-                        <>
-                          {image.heading != '' && (
-                            <p className="w-full pt-10 mt-24 mr-auto overflow-hidden text-3xl font-bold border-t-4 border-primary-750 sm:text-4xl lg:text-5xl">
-                              <motion.span
-                                variants={item}
-                                whileInView="show"
-                                viewport={{ once: true }}
-                                className="block"
-                              >
-                                {image?.heading}
-                              </motion.span>
-                            </p>
-                          )}
-                          {image.paragraph != '' && (
-                            <p className="max-w-2xl mt-6 mb-10 mr-auto overflow-hidden sm:text-lg lg:text-xl">
-                              <motion.span
-                                variants={item}
-                                whileInView="show"
-                                viewport={{ once: true }}
-                                className="block"
-                              >
-                                {image?.paragraph}
-                              </motion.span>
-                            </p>
-                          )}
-                          <div className="relative flex flex-col items-center justify-center w-full h-full gap-10 p-6 mb-10 overflow-hidden bg-primary-800 md:py-12 md:px-32">
-                            {image.urls.map((url) => (
-                              <div
-                                key={url}
-                                className="relative flex flex-col items-center justify-center w-full h-full gap-10 aspect-video"
-                              >
-                                <Image
-                                  fill
-                                  quality={100}
-                                  key={url}
-                                  src={url}
-                                  alt={'Project image.'}
-                                  className="object-contain w-full h-full min-w-full min-h-full"
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        </>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        <Footer />
-      </motion.div>
-    </React.Fragment>
-  )
-}
-
-export default Works

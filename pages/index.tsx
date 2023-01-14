@@ -5,9 +5,13 @@ import About from '../components/About'
 import Hero from '../components/Hero'
 import Works from '../components/Works'
 import { languages } from '../constants/languages'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
 const Home: NextPage = () => {
+  const { scrollYProgress } = useScroll()
+
+  const height = useTransform(scrollYProgress, [0.5, 1], ['500%', '0%'])
+  const y = useTransform(scrollYProgress, [0.5, 1], [-350, 0])
   return (
     <>
       <Head>
@@ -18,9 +22,21 @@ const Home: NextPage = () => {
         />
       </Head>
       <main className="text-primary-50">
-        <Hero />
-        <Works />
+        <div className="relative">
+          <Hero />
+          <Works />
+          <div className="absolute bottom-0 top-[unset] translate-y-full w-full circle-container h-[15vh]  select-none pointer-events-none z-[1] ">
+            <motion.div
+              initial={{ height: '500%' }}
+              style={{ height }}
+              transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
+              className="absolute w-[150%]  block rounded-[50%] transform-gpu bg-primary-850 left-[50%] -translate-x-[50%] -translate-y-[50%] shadow-xl"
+            />
+          </div>
+        </div>
+        {/* <motion.div style={{ y }}> */}
         <About />
+        {/* </motion.div> */}
         <Loader />
       </main>
     </>
