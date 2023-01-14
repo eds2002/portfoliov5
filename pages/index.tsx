@@ -21,8 +21,8 @@ const Home: NextPage = () => {
           content="Eduardo Sanchez is a front end developer who creates wonderful user experiences through the web."
         />
       </Head>
-      <main className="text-primary-50">
-        <div className="relative">
+      <main className="overflow-x-hidden text-primary-50">
+        <div className="relative ">
           <Hero />
           <Works />
           <div className="absolute bottom-0 top-[unset] translate-y-full w-full circle-container h-[15vh]  select-none pointer-events-none z-[1] ">
@@ -48,7 +48,7 @@ function Loader() {
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((oldNum) => oldNum + 1)
-    }, 100)
+    }, 200)
     return () => {
       clearInterval(timer)
     }

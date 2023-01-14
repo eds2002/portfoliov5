@@ -358,10 +358,10 @@ const ExpandProject: React.FC<ExpandProps> = ({ expand, project }) => {
         animate={{ y: 0 }}
         exit={{ y: '100vh' }}
         transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
-        className={`fixed inset-0  bg-primary-850  overflow-y-scroll z-20`}
+        className={`fixed inset-0  bg-primary-850  overflow-y-scroll z-20 overflow-x-hidden`}
         ref={ref}
       >
-        <div className="relative ">
+        <div className="relative">
           <div className="pb-16 mx-auto bg-primary-850 z-[3] relative">
             <div className="sticky top-0 z-10 text-primary-50 backdrop-blur-lg">
               <div className="px-4 mx-auto max-w-7xl">
@@ -507,7 +507,7 @@ const ExpandProject: React.FC<ExpandProps> = ({ expand, project }) => {
               ))}
             </div>
           </div>
-          <div className="absolute bottom-0 top-[unset] translate-y-full w-full circle-container h-[15vh] z-0 select-none pointer-events-none z-[1]">
+          <div className="absolute bottom-0 top-[unset] translate-y-full w-full circle-container h-[15vh]  select-none pointer-events-none z-[1]">
             <motion.div
               initial={{ height: '500%' }}
               style={{ height }}
