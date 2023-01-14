@@ -68,6 +68,43 @@ const projects = [
     ],
   },
   {
+    title: 'Sanchez Cleaning',
+    stack: ['React', 'Next', 'Tailwind', 'Send Grid API', 'Node JS'],
+    shortDesc: 'Freelance',
+    longDesc: 'A business website designed to maximize conversions.',
+    objective:
+      'Create a website that allows my client to get as many leads as possible.',
+    responsibility: 'UI Design & Development',
+    webLink: 'https://www.sanchezfamilycleaning.com',
+    gitLink: '',
+    thumbnail:
+      'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/hufi%2Fwww.hufistore.com_.png?alt=media&token=eb1c7f84-db5a-440a-a4f1-c63855f982ee',
+    deskImages: [
+      {
+        heading: 'A clean and friendly user interface.',
+        paragraph: '',
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/sfcs%2Fhome.png?alt=media&token=86d5799a-0564-45e4-816f-87222f48d122',
+        ],
+      },
+      {
+        heading: '',
+        paragraph: '',
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/sfcs%2Fabout.png?alt=media&token=78f14dff-cc29-41c0-8c8c-3d28d8418d6d',
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/sfcs%2Fservices.png?alt=media&token=68964714-0c88-40e4-bd25-3a7a670e5488',
+        ],
+      },
+      {
+        heading: 'A built in contact system for user retention.',
+        paragraph: '',
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/sfcs%2Frequest.png?alt=media&token=339108ae-ad94-4adc-a18f-cb447a2acab2',
+        ],
+      },
+    ],
+  },
+  {
     title: 'Hufi',
     stack: [
       'React',
