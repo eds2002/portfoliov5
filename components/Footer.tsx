@@ -1,31 +1,50 @@
+import React from 'react'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
-import React, { useRef } from 'react'
+import { container, item } from '../constants/animationVariants'
 import { socials } from '../data/socials'
-import { useInView } from '../hooks/useInView'
 
 const Footer: React.FC = () => {
-  const componentRef = useRef<HTMLElement>(null)
-  useInView(componentRef)
-
   return (
-    <section
-      className="h-screen py-24 bg-primary-50 text-primary-900"
-      ref={componentRef}
+    <motion.section
+      className="py-24 bg-primary-50 text-primary-900"
+      variants={container}
+      initial="hidden"
+      animate="show"
     >
       <div className="px-6 mx-auto max-w-7xl">
         <p className="text-4xl font-extrabold md:text-6xl">
-          <span>Let&apos;s work together.</span>
+          <motion.span
+            variants={item}
+            whileInView="show"
+            viewport={{ once: true }}
+            className="block"
+          >
+            Let&apos;s work together.
+          </motion.span>
         </p>
         <Link href="mailto:es23jr@gmail.com">
           <p className="inline-block mt-2 underline">
-            <span>es23jr@gmail.com</span>
+            <motion.span
+              variants={item}
+              whileInView="show"
+              viewport={{ once: true }}
+              className="block"
+            >
+              es23jr@gmail.com
+            </motion.span>
           </p>
         </Link>
         <p className="max-w-md mt-4 text-base sm:text-lg lg:text-xl">
-          <span>
-            Interested in working together? Contact me! I&apos;m always looking
-            for new positions.
-          </span>
+          <motion.span
+            variants={item}
+            whileInView="show"
+            viewport={{ once: true }}
+            className="block"
+          >
+            Interested in working together? Contact me! I&apos;m currently
+            looking for new positions.
+          </motion.span>
         </p>
         {socials.map((social) => (
           <Link
@@ -35,12 +54,19 @@ const Footer: React.FC = () => {
             target="_blank"
           >
             <p className="inline-block mt-6 mr-3 text-sm opacity-60">
-              <span>{social.name}</span>
+              <motion.span
+                variants={item}
+                whileInView="show"
+                viewport={{ once: true }}
+                className="block"
+              >
+                {social.name}
+              </motion.span>
             </p>
           </Link>
         ))}
       </div>
-    </section>
+    </motion.section>
   )
 }
 

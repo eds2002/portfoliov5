@@ -3,15 +3,14 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import About from '../components/About'
 import Hero from '../components/Hero'
-import Works from '../components/Works'
 import { languages } from '../constants/languages'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import Works from '../components/Works'
 
 const Home: NextPage = () => {
   const { scrollYProgress } = useScroll()
-
   const height = useTransform(scrollYProgress, [0.5, 1], ['500%', '0%'])
-  const y = useTransform(scrollYProgress, [0.5, 1], [-350, 0])
+  const [displayContent, setDisplayContent] = useState(false)
   return (
     <>
       <Head>
@@ -22,28 +21,34 @@ const Home: NextPage = () => {
         />
       </Head>
       <main className="overflow-x-hidden text-primary-50">
-        <div className="relative ">
-          <Hero />
-          <Works />
-          <div className="absolute bottom-0 top-[unset] translate-y-full w-full circle-container h-[15vh]  select-none pointer-events-none z-[1] ">
-            <motion.div
-              initial={{ height: '500%' }}
-              style={{ height }}
-              transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
-              className="absolute w-[150%]  block rounded-[50%] transform-gpu bg-primary-850 left-[50%] -translate-x-[50%] -translate-y-[50%] shadow-xl"
-            />
-          </div>
-        </div>
-        {/* <motion.div style={{ y }}> */}
-        <About />
-        {/* </motion.div> */}
-        <Loader />
+        {displayContent && (
+          <>
+            <div className="relative ">
+              <Hero />
+              <Works />
+              <div className="absolute bottom-0 top-[unset] translate-y-full w-full circle-container h-[15vh]  select-none pointer-events-none z-[1] ">
+                <motion.div
+                  initial={{ height: '500%' }}
+                  style={{ height }}
+                  transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
+                  className="absolute w-[150%]  block rounded-[50%] transform-gpu bg-primary-850 left-[50%] -translate-x-[50%] -translate-y-[50%] shadow-xl"
+                />
+              </div>
+            </div>
+            <About />
+          </>
+        )}
+        <Loader setDisplayContent={setDisplayContent} />
       </main>
     </>
   )
 }
 
-function Loader() {
+function Loader({
+  setDisplayContent,
+}: {
+  setDisplayContent: (val: boolean) => void
+}) {
   const [index, setIndex] = useState(0)
   useEffect(() => {
     const timer = setInterval(() => {
@@ -53,9 +58,15 @@ function Loader() {
       clearInterval(timer)
     }
   }, [])
+
+  useEffect(() => {
+    if (index >= 7) {
+      setDisplayContent(true)
+    }
+  }, [index, setDisplayContent])
   return (
     <>
-      {index < 90 && (
+      {index < 25 && (
         <motion.div
           initial={{ y: 0 }}
           animate={{ y: index > 5 ? '-100vh' : 0 }}
