@@ -6,6 +6,7 @@ import Hero from '../components/Hero'
 import { languages } from '../constants/languages'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Works from '../components/Works'
+import Copyright from '../components/Copyright'
 
 const Home: NextPage = () => {
   const { scrollYProgress } = useScroll()
@@ -36,6 +37,7 @@ const Home: NextPage = () => {
               </div>
             </div>
             <About />
+            <Copyright />
           </>
         )}
         <Loader setDisplayContent={setDisplayContent} />

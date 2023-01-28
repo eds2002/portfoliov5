@@ -7,7 +7,7 @@ import { socials } from '../data/socials'
 const About: React.FC = () => {
   return (
     <motion.section
-      className="py-24 bg-primary-50 text-primary-900"
+      className="pt-24 pb-10 bg-primary-50 text-primary-900"
       variants={container}
       initial="hidden"
       animate="show"
