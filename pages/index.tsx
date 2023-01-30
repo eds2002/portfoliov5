@@ -4,7 +4,7 @@ import Head from 'next/head'
 import About from '../components/About'
 import Hero from '../components/Hero'
 import { languages } from '../constants/languages'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, MotionValue, useScroll, useTransform } from 'framer-motion'
 import Works from '../components/Works'
 import Copyright from '../components/Copyright'
 
@@ -27,14 +27,7 @@ const Home: NextPage = () => {
             <div className="relative ">
               <Hero />
               <Works />
-              <div className="absolute bottom-0 top-[unset] translate-y-full w-full circle-container h-[15vh]  select-none pointer-events-none z-[1] ">
-                <motion.div
-                  initial={{ height: '500%' }}
-                  style={{ height }}
-                  transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
-                  className="absolute w-[150%]  block rounded-[50%] transform-gpu bg-primary-850 left-[50%] -translate-x-[50%] -translate-y-[50%] shadow-xl"
-                />
-              </div>
+              <CircleBottom height={height} />
             </div>
             <About />
             <Copyright />
@@ -45,6 +38,17 @@ const Home: NextPage = () => {
     </>
   )
 }
+
+const CircleBottom = ({ height }: { height: MotionValue<string> }) => (
+  <div className="absolute bottom-0 top-[unset] translate-y-full w-full circle-container h-[15vh]  select-none pointer-events-none z-[1] ">
+    <motion.div
+      initial={{ height: '500%' }}
+      style={{ height }}
+      transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
+      className="absolute w-[150%]  block rounded-[50%] transform-gpu bg-primary-850 left-[50%] -translate-x-[50%] -translate-y-[50%] shadow-xl"
+    />
+  </div>
+)
 
 function Loader({
   setDisplayContent,
