@@ -67,7 +67,7 @@ const Projects = () => {
             onClick={() => handleProjectClick(project.title)}
             className="flex flex-col items-start justify-center flex-1 w-full text-primary-50 md:justify-between md:flex-row md:items-center group"
           >
-            <div className="w-full  group-hover:translate-x-[1%] transition duration-300 py-4 cursor-pointer">
+            <div className="w-full  group-hover:translate-x-[1%] transition  py-4 cursor-pointer">
               <ProjectTitle
                 title={project.title}
                 handleProjectClick={handleProjectClick}
@@ -96,7 +96,7 @@ const ProjectTitle = ({
 }) => {
   return (
     <p
-      className="text-3xl font-bold transition duration-200 cursor-pointer md:text-7xl xl:text-8xl group-hover:opacity-70"
+      className="text-3xl font-bold transition cursor-pointer md:text-7xl xl:text-8xl group-hover:text-blue-400"
       onClick={() => handleProjectClick(title)}
     >
       <motion.span
@@ -112,7 +112,7 @@ const ProjectTitle = ({
 }
 
 const ShortDescription = ({ shortDesc }: { shortDesc: string }) => (
-  <div className="whitespace-nowrap group-hover:translate-x-[1%] transition duration-300 group-hover:opacity-70">
+  <div className="whitespace-nowrap group-hover:translate-x-[1%] transition  group-hover:text-blue-400">
     <p className="hidden mt-3 text-base opacity-80 md:max-w-7xl md:block">
       <motion.span
         variants={item}
@@ -127,7 +127,7 @@ const ShortDescription = ({ shortDesc }: { shortDesc: string }) => (
 )
 
 const ProjectStack = ({ project }: { project: any }) => (
-  <div className="flex transition duration-200 gap-x-1 md:hidden group-hover:opacity-70">
+  <div className="flex transition gap-x-1 md:hidden group-hover:opacity-70 group-hover:text-blue-400">
     {project.stack.map((val: string, index: number) => (
       <React.Fragment key={val}>
         {index < 3 && (
