@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+*::-webkit-scrollbar {
+  width: 0px;
+}
+
+*::--webkit-scrollbar-track {
+  background: 'transparent';
+}
+
 html,
 body {
   padding: 0;
@@ -10,6 +18,9 @@ body {
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif,
     Helvetica Neue, sans-serif;
   overscroll-behavior: none;
+  scroll-behavior: initial;
+  min-height: '100%';
+  height: 'auto';
   @apply bg-primary-850 text-primary-50;
 }
 

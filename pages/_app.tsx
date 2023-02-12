@@ -21,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       hotjar.identify('USER_ID', { userProperty: 'value' })
     }
   }, [])
+  
   return (
     <main>
       <Component {...pageProps} />

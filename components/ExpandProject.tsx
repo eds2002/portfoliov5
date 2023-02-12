@@ -1,38 +1,43 @@
 import { useScroll, useTransform, motion, MotionValue } from 'framer-motion'
 import { useRouter } from 'next/router'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { projects } from '../constants/projects'
 import slugify from '../utils/slugify'
 import Image from 'next/image'
 import { container, item } from '../constants/animationVariants'
 import Footer from './Footer'
 
-const ExpandProject = ({ project }: { project: any }) => {
+const ExpandProject = ({
+  project,
+  setTransition,
+}: {
+  project: any
+  setTransition: (val: boolean) => void
+}) => {
   const ref = useRef<any>(null)
-  const { scrollYProgress } = useScroll({
-    container: ref,
-  })
+  const { scrollYProgress } = useScroll()
 
   const height = useTransform(scrollYProgress, [0.5, 1], ['500%', '0%'])
 
+  const findProjectName = projects.filter(
+    (prj) => slugify(prj.title) === project
+  )[0].title
+
+  useEffect(() => {
+    setTransition(false)
+  }, [])
+
   return (
-    <motion.div
-      initial={{ y: '100vh' }}
-      animate={{ y: 0 }}
-      exit={{ y: '100vh' }}
-      transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
-      className={`fixed inset-0  bg-primary-850  overflow-y-scroll z-20 overflow-x-hidden`}
-      ref={ref}
-    >
+    <>
       <div className="relative">
-        <div className="pb-16 mx-auto bg-primary-850 z-[3] relative">
+        <div className="relative z-10">
           <Header />
           <ProjectBody project={project} />
         </div>
         <CircleBottom height={height} />
       </div>
       <Footer />
-    </motion.div>
+    </>
   )
 }
 

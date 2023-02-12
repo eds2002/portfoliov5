@@ -3,7 +3,7 @@ export const container = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.01,
+      // staggerChildren: 2,
       delay: 0,
     },
   },

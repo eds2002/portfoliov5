@@ -4,14 +4,61 @@ import Head from 'next/head'
 import About from '../components/About'
 import Hero from '../components/Hero'
 import { languages } from '../constants/languages'
-import { motion, MotionValue, useScroll, useTransform } from 'framer-motion'
+import {
+  AnimatePresence,
+  motion,
+  MotionValue,
+  useScroll,
+  useTransform,
+} from 'framer-motion'
 import Works from '../components/Works'
 import Copyright from '../components/Copyright'
+import Lenis from '@studio-freight/lenis'
+import { useRouter } from 'next/router'
+import ExpandProject from '../components/ExpandProject'
+import { delay } from '../utils/delay'
+import PageTransition from '../components/PageTransition'
 
 const Home: NextPage = () => {
   const { scrollYProgress } = useScroll()
   const height = useTransform(scrollYProgress, [0.5, 1], ['500%', '0%'])
   const [displayContent, setDisplayContent] = useState(false)
+  const router = useRouter()
+  const [expand, setExpand] = useState(false)
+  const [project, setProject] = useState('')
+  const [transition, setTransition] = useState(false)
+
+  useEffect(() => {
+    if (!router.query.tab) {
+      ;(async () => {
+        setTransition(true)
+        await delay(1000)
+        window.scrollTo({ top: 0 })
+        setTransition(false)
+        setProject('')
+      })()
+    } else {
+      ;(async () => {
+        setTransition(true)
+        await delay(1000)
+        window.scrollTo({ top: 0 })
+        setProject(router.query.tab as string)
+      })()
+    }
+  }, [router.query, setExpand, setProject])
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 2,
+    })
+
+    function raf(time: number) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+    requestAnimationFrame(raf)
+  })
+
   return (
     <>
       <Head>
@@ -24,15 +71,22 @@ const Home: NextPage = () => {
       <main className="overflow-x-hidden text-primary-50">
         {displayContent && (
           <>
-            <div className="relative ">
-              <Hero />
-              <Works />
-              <CircleBottom height={height} />
-            </div>
-            <About />
-            <Copyright />
+            {project ? (
+              <ExpandProject project={project} setTransition={setTransition} />
+            ) : (
+              <>
+                <div className="relative ">
+                  <Hero />
+                  <Works />
+                  <CircleBottom height={height} />
+                </div>
+                <About />
+                <Copyright />
+              </>
+            )}
           </>
         )}
+        <AnimatePresence>{transition && <PageTransition />}</AnimatePresence>
         <Loader setDisplayContent={setDisplayContent} />
       </main>
     </>

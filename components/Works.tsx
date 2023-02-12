@@ -1,47 +1,18 @@
+import React from 'react'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
 import { useState } from 'react'
 import slugify from '../utils/slugify'
-import { AnimatePresence, motion } from 'framer-motion'
-import ExpandProject from './ExpandProject'
+import { motion } from 'framer-motion'
 import { projects } from '../constants/projects'
 import { container, item } from '../constants/animationVariants'
 
 const Works: React.FC = () => {
-  const router = useRouter()
-  const [expand, setExpand] = useState(false)
-  const [project, setProject] = useState('')
-
-  // Disable body scroll, scrolls on expanded
-  useEffect(() => {
-    if (expand) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-  }, [expand])
-
-  useEffect(() => {
-    if (!router.query.tab) {
-      setExpand(false)
-    } else {
-      setProject(router.query.tab as string)
-      setExpand(true)
-    }
-  }, [router.query, setExpand, setProject])
-
   return (
-    <>
-      <section className={`py-16 relative z-[2] transition `}>
-        <div className="px-6 mx-auto max-w-7xl">
-          <Projects />
-        </div>
-      </section>
-
-      <AnimatePresence>
-        {expand && <ExpandProject project={project} />}
-      </AnimatePresence>
-    </>
+    <section className={`py-16 relative z-[2] transition `}>
+      <div className="px-6 mx-auto max-w-7xl">
+        <Projects />
+      </div>
+    </section>
   )
 }
 
