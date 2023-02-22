@@ -1,6 +1,5 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import slugify from '../utils/slugify'
 import { motion } from 'framer-motion'
 import { projects } from '../constants/projects'

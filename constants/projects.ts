@@ -1,5 +1,44 @@
 export const projects = [
   {
+    title: 'Todo App',
+    stack: ['React', 'Next 13', 'Postgress', 'Vercel', 'Supabase', 'Tailwind'],
+    shortDesc: 'Personal Project',
+    longDesc:
+      'A fun little todo app that involves authentication and a simple CRUD todo. ',
+    objective:
+      'Practice communicating with a backend and including professional error handling and validating.',
+    responsibility: 'UI Design & Development',
+    webLink: 'https://todoapp-plum-ten.vercel.app/',
+    gitLink: 'https://github.com/eds2002/todoapp',
+    thumbnail:
+      'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/hufi%2Fwww.hufistore.com_.png?alt=media&token=eb1c7f84-db5a-440a-a4f1-c63855f982ee',
+    deskImages: [
+      {
+        heading:
+          'A simple todo app with up to date practices of authentication.',
+        paragraph: '',
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/todo%2Ftodoapp-plum-ten.vercel.app_%20(6).png?alt=media&token=0d999481-e2c9-4843-af9a-989e90323d1f',
+        ],
+      },
+      {
+        heading: 'Create your lists',
+        paragraph:
+          "Transakt is designed to help you visualize what you don't usually see with normal checkbook apps.",
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/todo%2FLISTS%20PICTURE.png?alt=media&token=9d596935-e8ab-4277-89ba-49aced0aa3be',
+        ],
+      },
+      {
+        heading: 'A detailed view of your todos',
+        paragraph: '',
+        urls: [
+          'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/todo%2FTODOSPICTURE.png?alt=media&token=ea9861cf-5dc8-42e7-b459-307115dc6c3e',
+        ],
+      },
+    ],
+  },
+  {
     title: 'Transakt (BETA)',
     stack: ['React', 'Next 13', 'Tailwind', 'Vercel'],
     shortDesc: 'Personal Finance',

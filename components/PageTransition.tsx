@@ -18,6 +18,8 @@ export default function PageTransition() {
         return 'Poshly'
       case 'bula':
         return 'Bula'
+      case 'todo-app':
+        return 'Todo'
       default: {
         return 'Home'
       }
