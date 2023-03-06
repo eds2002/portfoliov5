@@ -24,7 +24,7 @@ export const projects = [
       {
         heading: 'Create your lists',
         paragraph:
-          "Transakt is designed to help you visualize what you don't usually see with normal checkbook apps.",
+          'Organize your todos into lists. Life is always easier when you organize your stuff.',
         urls: [
           'https://firebasestorage.googleapis.com/v0/b/portfolioimagehosting.appspot.com/o/todo%2FLISTS%20PICTURE.png?alt=media&token=9d596935-e8ab-4277-89ba-49aced0aa3be',
         ],
