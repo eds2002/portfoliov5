@@ -1,5 +1,4 @@
-import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Head from 'next/head'
 import About from '../components/About'
 import Hero from '../components/Hero'
@@ -18,8 +17,12 @@ import { useRouter } from 'next/router'
 import ExpandProject from '../components/ExpandProject'
 import { delay } from '../utils/delay'
 import PageTransition from '../components/PageTransition'
+import { client } from '../utils/sanityClient'
+import { Project } from '../interfaces'
+import { ProjectsContext } from '../context/ProjectsProvider'
 
-const Home: NextPage = () => {
+export default function Home({ projects }: { projects: Project[] }) {
+  const { setProjects } = useContext(ProjectsContext)
   const { scrollYProgress } = useScroll()
   const height = useTransform(scrollYProgress, [0.5, 1], ['500%', '0%'])
   const [displayContent, setDisplayContent] = useState(false)
@@ -29,20 +32,24 @@ const Home: NextPage = () => {
   const [transition, setTransition] = useState(false)
 
   useEffect(() => {
+    const lenis = new Lenis()
     if (!router.query.tab) {
       ;(async () => {
+        lenis.stop()
         setTransition(true)
         await delay(1000)
-        window.scrollTo({ top: 0 })
         setTransition(false)
         setProject('')
+        document.body.scrollTop = 0 // scrolls to top
+        document.body.scrollTo(0, 0)
       })()
     } else {
       ;(async () => {
         setTransition(true)
         await delay(1000)
-        window.scrollTo({ top: 0 })
         setProject(router.query.tab as string)
+        document.body.scrollTop = 0 // scrolls to top
+        document.body.scrollTo(0, 0)
       })()
     }
   }, [router.query, setExpand, setProject])
@@ -58,6 +65,10 @@ const Home: NextPage = () => {
     }
     requestAnimationFrame(raf)
   })
+
+  useEffect(() => {
+    setProjects(projects)
+  }, [projects])
 
   return (
     <>
@@ -151,4 +162,11 @@ function Loader({
   )
 }
 
-export default Home
+export async function getStaticProps() {
+  const projects = await client.fetch(`*[_type == "project"]`)
+  return {
+    props: {
+      projects,
+    },
+  }
+}

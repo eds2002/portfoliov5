@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 import slugify from '../utils/slugify'
 import { motion } from 'framer-motion'
-import { projects } from '../constants/projects'
 import { container, item } from '../constants/animationVariants'
+import { ProjectsContext } from '../context/ProjectsProvider'
+import { Project } from '../interfaces'
 
 const Works: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const Works: React.FC = () => {
 }
 
 const Projects = () => {
+  const { projects } = useContext(ProjectsContext)
   const router = useRouter()
   const handleProjectClick = (title: string) => {
     router.push({ query: `tab=${encodeURI(slugify(title))}` }, undefined, {
@@ -31,21 +33,21 @@ const Projects = () => {
           initial="hidden"
           animate="show"
           className={`flex lg:flex-row flex-col items-center justify-center py-10`}
-          key={project.title}
+          key={project.projectName}
         >
           <div
-            onClick={() => handleProjectClick(project.title)}
+            onClick={() => handleProjectClick(project.projectName!)}
             className="flex flex-col items-start justify-center flex-1 w-full text-primary-50 md:justify-between md:flex-row md:items-center group"
           >
             <div className="w-full  group-hover:translate-x-[1%] transition  py-4 cursor-pointer">
               <ProjectTitle
-                title={project.title}
+                title={project.projectName!}
                 handleProjectClick={handleProjectClick}
               />
               <Underline />
               <ProjectStack project={project} />
             </div>
-            <ShortDescription shortDesc={project.shortDesc} />
+            <ShortDescription shortDesc={project?.shortDesc ?? 'Freelance'} />
           </div>
         </motion.div>
       ))}
@@ -96,9 +98,9 @@ const ShortDescription = ({ shortDesc }: { shortDesc: string }) => (
   </div>
 )
 
-const ProjectStack = ({ project }: { project: any }) => (
+const ProjectStack = ({ project }: { project: Project }) => (
   <div className="flex transition gap-x-1 md:hidden group-hover:opacity-70 group-hover:text-blue-400">
-    {project.stack.map((val: string, index: number) => (
+    {project.techStack?.map((val: string, index: number) => (
       <React.Fragment key={val}>
         {index < 3 && (
           <p className="opacity-80 ">
@@ -121,7 +123,7 @@ const ProjectStack = ({ project }: { project: any }) => (
         viewport={{ once: true }}
         className="block"
       >
-        & {project.stack.length - 3} more
+        & {project.techStack && project.techStack.length - 3} more
       </motion.span>
     </p>
   </div>

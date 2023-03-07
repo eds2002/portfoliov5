@@ -3,8 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["firebasestorage.googleapis.com"],
+    domains: ['firebasestorage.googleapis.com', 'cdn.sanity.io'],
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

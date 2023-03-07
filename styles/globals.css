@@ -21,6 +21,7 @@ body {
   scroll-behavior: initial;
   min-height: '100%';
   height: 'auto';
+  overflow: auto;
   @apply bg-primary-850 text-primary-50;
 }
 

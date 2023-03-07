@@ -1,29 +1,20 @@
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
+import { ProjectsContext } from '../context/ProjectsProvider'
+import slugify from '../utils/slugify'
 
 export default function PageTransition() {
   const router = useRouter()
+  const { projects } = useContext(ProjectsContext)
 
   const pageTitle = useCallback(() => {
     const { tab } = router.query
-    switch (tab) {
-      case 'sanchez-cleaning':
-        return 'Sanchez Cleaning'
-      case 'hufi':
-        return 'Hufi'
-      case 'transakt-beta':
-        return 'Transakt'
-      case 'poshly-finance':
-        return 'Poshly'
-      case 'bula':
-        return 'Bula'
-      case 'todo-app':
-        return 'Todo'
-      default: {
-        return 'Home'
-      }
-    }
+
+    const projectObj = projects.filter(
+      (prj) => slugify(prj.projectName!) === tab
+    )[0]
+    return projectObj?.projShortName ?? 'Home'
   }, [router.query])
 
   return (

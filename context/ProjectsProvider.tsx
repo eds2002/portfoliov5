@@ -1,8 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react'
+import { Project } from '../interfaces'
 
 interface props {
-  projects: string | null
-  setProjects: (val: string) => void
+  projects: Project[]
+  setProjects: (val: Project[]) => void
 }
 export const ProjectsContext = createContext<props>({} as any)
 
@@ -11,17 +12,9 @@ export default function AccountsProvider({
 }: {
   children: React.ReactNode
 }) {
-  const [projects, setProjects] = useState<any>([])
-
-  useEffect(() => {
-    if (localStorage.getItem('storedAccounts')) {
-      const storedDataRef = localStorage.getItem('storedAccounts')
-      setProjects(JSON.parse(storedDataRef as string))
-    }
-  }, [])
-
+  const [projects, setProjects] = useState<Project[]>([])
   return (
-    <ProjectsContext.Provider value={{ projects, setProjects }}>
+    <ProjectsContext.Provider value={{ projects, setProjects } as any}>
       {children}
     </ProjectsContext.Provider>
   )

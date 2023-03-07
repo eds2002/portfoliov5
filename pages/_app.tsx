@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { hotjar } from 'react-hotjar'
 import { useEffect } from 'react'
+import ProjectsProvider from '../context/ProjectsProvider'
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -21,10 +22,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       hotjar.identify('USER_ID', { userProperty: 'value' })
     }
   }, [])
-  
+
   return (
     <main>
-      <Component {...pageProps} />
+      <ProjectsProvider>
+        <Component {...pageProps} />
+      </ProjectsProvider>
     </main>
   )
 }
