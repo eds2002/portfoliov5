@@ -1,6 +1,7 @@
+import Lenis from '@studio-freight/lenis'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { ProjectsContext } from '../context/ProjectsProvider'
 import slugify from '../utils/slugify'
 
@@ -23,10 +24,16 @@ export default function PageTransition() {
       animate={{ y: '0%' }}
       exit={{ y: '-100%' }}
       transition={{ duration: 0.8, ease: [0.44, 0.38, 0, 0.99] }}
-      className="fixed inset-0 z-20 flex items-center justify-center bg-white"
+      className="fixed inset-0 z-20 flex items-center justify-center bg-primary-50"
     >
       <CircleTop />
-      <motion.p className="relative z-20 text-5xl font-bold text-black">
+      <motion.p
+        initial={{ y: 50, scale: 0.7, opacity: 0.5 }}
+        animate={{ y: 0, scale: 1, opacity: 1 }}
+        exit={{ y: 50, scale: 0.7, opacity: 0.5 }}
+        transition={{ duration: 0.8, ease: [0.44, 0.38, 0, 0.99] }}
+        className="relative z-20 text-5xl font-bold text-center text-black"
+      >
         {pageTitle()}
       </motion.p>
       <CircleBottom />

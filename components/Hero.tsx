@@ -12,26 +12,41 @@ const Hero: React.FC = () => {
       initial="hidden"
       animate="show"
     >
-      <Name />
+      <Name name={'Eduardo'} />
       <div className="flex flex-col w-full md:items-end md:justify-between md:flex-row">
-        <EmailAndTitle />
+        <EmailAndTitle
+          email="es23jr@gmail.com"
+          jobTitle="Front End Developer"
+        />
         <Socials />
       </div>
     </motion.section>
   )
 }
 
-const Name = () => (
+const Name = ({ name }: { name: string }) => (
   <div>
     <p className="text-5xl font-extrabold md:text-9xl ">
-      <motion.span
-        variants={item}
-        whileInView="show"
-        viewport={{ once: true }}
-        className="block"
-      >
-        Eduardo
-      </motion.span>
+      {name.split('').map((letter, index) => (
+        <motion.span
+          initial={{ y: 0 }}
+          className="relative inline-flex overflow-hidden"
+          key={letter + index}
+        >
+          <motion.span
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            transition={{
+              type: 'spring',
+              delay: index * 0.05,
+              duration: 0.4,
+            }}
+            className="relative block"
+          >
+            {letter}
+          </motion.span>
+        </motion.span>
+      ))}
     </p>
   </div>
 )
@@ -83,10 +98,16 @@ const Socials = () => (
   </div>
 )
 
-const EmailAndTitle = () => (
+const EmailAndTitle = ({
+  email,
+  jobTitle,
+}: {
+  email: string
+  jobTitle: string
+}) => (
   <div className="mt-8 md:mt-20 xl:mt-56">
     <div className="w-max">
-      <Link href="mailto:es23jr@gmail.com">
+      <Link href={`mailto:${email}`}>
         <p className="text-lg underline w-max">
           <motion.span
             variants={item}
@@ -94,7 +115,7 @@ const EmailAndTitle = () => (
             viewport={{ once: true }}
             className="block"
           >
-            es23jr@gmail.com
+            {email}
           </motion.span>
         </p>
       </Link>
@@ -107,7 +128,7 @@ const EmailAndTitle = () => (
           viewport={{ once: true }}
           className="block"
         >
-          Front End Developer
+          {jobTitle}
         </motion.span>
       </p>
     </div>

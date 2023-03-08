@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { container, item } from '../constants/animationVariants'
 import { ProjectsContext } from '../context/ProjectsProvider'
 import { Project } from '../interfaces'
+import Lenis from '@studio-freight/lenis'
 
 const Works: React.FC = () => {
   return (

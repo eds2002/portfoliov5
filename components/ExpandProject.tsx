@@ -11,6 +11,7 @@ import { BiChevronLeft } from 'react-icons/bi'
 import { ProjectsContext } from '../context/ProjectsProvider'
 import { ImageInterface, Project } from '../interfaces'
 import { urlFor } from '../utils/urlFor'
+import Lenis from '@studio-freight/lenis'
 
 const ExpandProject = ({
   project,
@@ -24,13 +25,19 @@ const ExpandProject = ({
   const height = useTransform(scrollYProgress, [0.5, 1], ['500%', '0%'])
 
   useEffect(() => {
+    const lenis = new Lenis()
     setTransition(false)
-    window.scrollTo({ top: 0 })
+    lenis.stop()
+    // Transition covers up the page
+    lenis.scrollTo(0, { immediate: true })
+    // When the page transition ends after a short time, free the scroll again
+    lenis.start()
+    window.scrollTo(0, 0)
   }, [setTransition])
 
   return (
     <>
-      <div className="relative">
+      <div className="relative" id="anchor">
         <div className="relative z-10 pb-24">
           <ProjectBody project={project} />
         </div>
