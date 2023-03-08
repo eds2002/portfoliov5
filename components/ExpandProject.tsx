@@ -210,8 +210,9 @@ const Images = ({
         width={5000}
         height={5000}
         key={image._key}
+        priority
         alt={'Project image.'}
-        className="object-fill w-full h-full min-w-full min-h-full overflow-hidden rounded-3xl"
+        className="object-fill w-full h-full min-w-full min-h-full overflow-hidden bg-stone-900 rounded-3xl"
       />
     </motion.div>
   )
