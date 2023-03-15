@@ -84,7 +84,7 @@ export default function Home({ projects }: { projects: Project[] }) {
           content="Eduardo Sanchez is a front end developer who creates wonderful user experiences through the web."
         />
       </Head>
-      <main className="overflow-x-hidden text-primary-50">
+      <div className="overflow-x-hidden text-primary-50">
         {displayContent && (
           <>
             {project ? (
@@ -115,7 +115,7 @@ export default function Home({ projects }: { projects: Project[] }) {
           displayContent={displayContent}
           setDisplayContent={setDisplayContent}
         />
-      </main>
+      </div>
     </>
   )
 }
@@ -144,7 +144,7 @@ function Loader({
         initial={{ y: 0 }}
         animate={{ y: displayContent ? '-100vh' : 0 }}
         transition={{ duration: 1, ease: [0.45, 0, 0, 1] }}
-        className="fixed inset-0 flex items-center justify-center bg-primary-50 text-primary-900 z-[9999999]"
+        className="fixed inset-0 flex items-center justify-center bg-primary-50 text-primary-900 z-[9999999] pointer-events-none"
       >
         {/* Background, hides the circle from the bottom */}
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-primary-50">
@@ -290,6 +290,7 @@ export async function getStaticProps() {
   return {
     props: {
       projects,
+      revalidate: 60,
     },
   }
 }
