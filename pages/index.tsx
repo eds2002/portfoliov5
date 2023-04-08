@@ -57,7 +57,7 @@ export default function Home({ projects }: { projects: Project[] }) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const projects = await client.fetch(`*[_type == "project"]`)
   return {
     props: {
