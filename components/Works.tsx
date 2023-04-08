@@ -5,11 +5,11 @@ import { motion } from 'framer-motion'
 import { container, item } from '../constants/animationVariants'
 import { ProjectsContext } from '../context/ProjectsProvider'
 import { Project } from '../interfaces'
-import Lenis from '@studio-freight/lenis'
+import { useProjectsStore } from '../utils/projectsStore'
 
 const Works: React.FC = () => {
   return (
-    <section className={`py-16 relative z-[2] transition `}>
+    <section id="works" className={`py-16 relative z-[2] transition `}>
       <div className="px-6 mx-auto max-w-7xl">
         <Projects />
       </div>
@@ -18,17 +18,20 @@ const Works: React.FC = () => {
 }
 
 const Projects = () => {
-  const { projects } = useContext(ProjectsContext)
+  const projects = useProjectsStore((state: any) => state.projects)
+  const setProjectName = useProjectsStore(
+    (state: any) => state.setSelectedProject
+  )
   const router = useRouter()
   const handleProjectClick = (title: string) => {
-    router.push({ query: `tab=${encodeURI(slugify(title))}` }, undefined, {
+    setProjectName(title)
+    router.push(`/project/${encodeURI(slugify(title))}`, undefined, {
       scroll: false,
-      shallow: true,
     })
   }
   return (
     <>
-      {projects.map((project, index: number) => (
+      {projects.map((project: any, index: number) => (
         <motion.div
           variants={container}
           initial="hidden"
@@ -38,7 +41,7 @@ const Projects = () => {
         >
           <div
             onClick={() => handleProjectClick(project.projectName!)}
-            className="flex flex-col items-start justify-center flex-1 w-full text-primary-50 md:justify-between md:flex-row md:items-center group"
+            className="flex flex-col items-start justify-center flex-1 w-full md:justify-between md:flex-row md:items-center group"
           >
             <div className="w-full  group-hover:translate-x-[1%] transition  py-4 cursor-pointer">
               <ProjectTitle
@@ -69,7 +72,7 @@ const ProjectTitle = ({
 }) => {
   return (
     <p
-      className="text-3xl font-bold transition cursor-pointer md:text-7xl xl:text-8xl group-hover:text-blue-400"
+      className="text-3xl font-bold transition cursor-pointer md:text-6xl group-hover:text-black/75"
       onClick={() => handleProjectClick(title)}
     >
       <motion.span
@@ -85,7 +88,7 @@ const ProjectTitle = ({
 }
 
 const ShortDescription = ({ shortDesc }: { shortDesc: string }) => (
-  <div className="whitespace-nowrap group-hover:translate-x-[1%] transition  group-hover:text-blue-400">
+  <div className="whitespace-nowrap group-hover:translate-x-[1%] transition  group-hover:text-black/75">
     <p className="hidden mt-3 text-base opacity-80 md:max-w-7xl md:block">
       <motion.span
         variants={item}
@@ -100,7 +103,7 @@ const ShortDescription = ({ shortDesc }: { shortDesc: string }) => (
 )
 
 const ProjectStack = ({ project }: { project: Project }) => (
-  <div className="flex transition gap-x-1 md:hidden group-hover:opacity-70 group-hover:text-blue-400">
+  <div className="flex transition gap-x-1 md:hidden group-hover:opacity-70 group-hover:text-black/75">
     {project.techStack?.map((val: string, index: number) => (
       <React.Fragment key={val}>
         {index < 3 && (

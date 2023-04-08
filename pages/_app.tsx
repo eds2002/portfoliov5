@@ -3,8 +3,10 @@ import type { AppProps } from 'next/app'
 import { hotjar } from 'react-hotjar'
 import { useEffect } from 'react'
 import ProjectsProvider from '../context/ProjectsProvider'
+import { AnimatePresence, AnimateSharedLayout } from 'framer-motion'
+import PageTransition from '../components/PageTransition'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, router }: AppProps) {
   useEffect(() => {
     hotjar.initialize(
       process.env.NEXT_PUBLIC_HJID as any,
@@ -23,12 +25,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [])
 
+  const onExitComplete = () => {
+    window.scrollTo({ top: 0 })
+  }
   return (
-    <main>
-      <ProjectsProvider>
-        <Component {...pageProps} />
-      </ProjectsProvider>
-    </main>
+    <AnimatePresence onExitComplete={onExitComplete} mode="popLayout">
+      <PageTransition />
+      <Component key={router.route} {...pageProps} />
+    </AnimatePresence>
   )
 }
 
