@@ -9,16 +9,19 @@ export default function PageTransition() {
   const animationControls = useAnimation()
 
   useEffect(() => {
-    async function test() {
-      animationControls.set('hidden')
-      animationControls.start('visible')
-      await new Promise((resolve) => setTimeout(resolve, 500))
+    async function reveal() {
       animationControls.start('exit')
     }
-    router.events.on('routeChangeStart', test)
+    async function initial() {
+      animationControls.set('hidden')
+      animationControls.start('visible')
+      await new Promise((resolve) => setTimeout(resolve, 900))
+      animationControls.start('exit')
+    }
+    router.events.on('routeChangeComplete', initial)
 
     return () => {
-      router.events.off('routeChangeStart', test)
+      router.events.off('routeChangeComplete', initial)
     }
   }, [router.events, animationControls])
 
@@ -48,7 +51,26 @@ export default function PageTransition() {
         transition={{ duration: 1, ease: [0.44, 0.38, 0, 0.99] }}
         className="relative z-20 text-5xl font-bold text-center text-black"
       >
-        {selectedName}
+        {selectedName.split('').map((letter: string, index: number) => (
+          <motion.span
+            initial={{ y: 0 }}
+            className="relative inline-flex overflow-hidden"
+            key={letter + index}
+          >
+            <motion.span
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              transition={{
+                type: 'spring',
+                delay: index * 0.05,
+                duration: 0.2,
+              }}
+              className="relative block"
+            >
+              {letter === ' ' ? '\u00A0' : letter}
+            </motion.span>
+          </motion.span>
+        ))}
       </motion.p>
       <CircleBottom animate={animationControls} />
     </motion.div>

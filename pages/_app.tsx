@@ -2,8 +2,7 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { hotjar } from 'react-hotjar'
 import { useEffect } from 'react'
-import ProjectsProvider from '../context/ProjectsProvider'
-import { AnimatePresence, AnimateSharedLayout } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import PageTransition from '../components/PageTransition'
 
 function MyApp({ Component, pageProps, router }: AppProps) {

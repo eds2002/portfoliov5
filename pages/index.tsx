@@ -1,27 +1,11 @@
-import { useContext, useEffect, useState } from 'react'
-import Head from 'next/head'
-import About from '../components/About'
+import { useEffect } from 'react'
 import Hero from '../components/Hero'
-import { languages } from '../constants/languages'
-import {
-  AnimatePresence,
-  motion,
-  MotionValue,
-  useAnimationControls,
-  useScroll,
-  useTransform,
-} from 'framer-motion'
+import { motion } from 'framer-motion'
 import Works from '../components/Works'
-import Copyright from '../components/Copyright'
 import Lenis from '@studio-freight/lenis'
-import { useRouter } from 'next/router'
-import { delay } from '../utils/delay'
 import { client } from '../utils/sanityClient'
 import { Project } from '../interfaces'
-import { ProjectsContext } from '../context/ProjectsProvider'
-import Link from 'next/link'
 import { useProjectsStore } from '../utils/projectsStore'
-import Header from '../components/global/Header'
 
 export default function Home({ projects }: { projects: Project[] }) {
   const setProjects = useProjectsStore((state: any) => state.setProjects)

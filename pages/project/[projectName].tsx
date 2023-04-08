@@ -1,6 +1,6 @@
 import { useScroll, useTransform, motion, MotionValue } from 'framer-motion'
 import { useRouter } from 'next/router'
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { BiChevronLeft } from 'react-icons/bi'
@@ -10,14 +10,12 @@ import { container, item } from '../../constants/animationVariants'
 import slugify from '../../utils/slugify'
 import { ImageInterface, Project } from '../../interfaces'
 import MagneticButton from '../../components/elements/MagneticButton'
-import { GetServerSideProps } from 'next'
 import { urlFor } from '../../utils/urlFor'
 import { client } from '../../utils/sanityClient'
 import Lenis from '@studio-freight/lenis'
 
 export default function ExpandProject({ project }: { project: any }) {
   const { scrollYProgress } = useScroll()
-  console.log(project)
 
   const height = useTransform(scrollYProgress, [0.5, 1], ['500%', '0%'])
   useEffect(() => {
