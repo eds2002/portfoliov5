@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useEffect } from 'react'
 import Hero from '../components/Hero'
 import { motion } from 'framer-motion'
@@ -35,25 +36,30 @@ export default function Home({ projects }: { projects: Project[] }) {
   }, [projects, setProjects])
 
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 1 }}
-      exit={{
-        opacity: 1,
-      }}
-      transition={{
-        duration: 0.2,
-      }}
-      className="overflow-x-hidden"
-    >
-      <div className="relative ">
-        {/* <Header /> */}
-        <Hero />
-        <Works />
-      </div>
-      {/* <About />
-      <Copyright /> */}
-    </motion.div>
+    <>
+      <Head>
+        <title>Eduardo Sanchez</title>
+      </Head>
+      <motion.div
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
+        exit={{
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.2,
+        }}
+        className="overflow-x-hidden"
+      >
+        <div className="relative ">
+          {/* <Header /> */}
+          <Hero />
+          <Works />
+        </div>
+        {/* <About />
+        <Copyright /> */}
+      </motion.div>
+    </>
   )
 }
 

@@ -13,6 +13,7 @@ import MagneticButton from '../../components/elements/MagneticButton'
 import { urlFor } from '../../utils/urlFor'
 import { client } from '../../utils/sanityClient'
 import Lenis from '@studio-freight/lenis'
+import Head from 'next/head'
 
 export default function ExpandProject({ project }: { project: any }) {
   const { scrollYProgress } = useScroll()
@@ -39,25 +40,30 @@ export default function ExpandProject({ project }: { project: any }) {
   })
 
   return (
-    <motion.div
-      className="w-full h-full"
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 1 }}
-      exit={{
-        opacity: 1,
-      }}
-      transition={{
-        duration: 0.2,
-      }}
-    >
-      <div className="relative overflow-visible" id="anchor">
-        <div className="relative z-10 pb-24 overflow-visible">
-          <ProjectBody project={project} />
+    <>
+      <Head>
+        <title>{project.projectName} | Eduardo Sanchez</title>
+      </Head>
+      <motion.div
+        className="w-full h-full overflow-x-hidden"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
+        exit={{
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.2,
+        }}
+      >
+        <div className="relative">
+          <div className="relative z-10 pb-24">
+            <ProjectBody project={project} />
+          </div>
+          <CircleBottom height={height} />
         </div>
-        <CircleBottom height={height} />
-      </div>
-      <Footer />
-    </motion.div>
+        <Footer />
+      </motion.div>
+    </>
   )
 }
 
