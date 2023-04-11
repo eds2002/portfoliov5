@@ -25,7 +25,21 @@ export default function PageTransition() {
     }
   }, [router.events, animationControls])
 
-  const selectedName = useProjectsStore((state: any) => state.selectedProject)
+  console.log(router.pathname)
+  const selectedProject = useProjectsStore(
+    (state: any) => state.selectedProject
+  )
+
+  const selectedName = useCallback(() => {
+    switch (router.pathname) {
+      case '/about':
+        return 'About'
+      case '/':
+        return 'Home'
+      default:
+        return selectedProject
+    }
+  }, [router.pathname, selectedProject])
 
   return (
     <motion.div
@@ -51,26 +65,28 @@ export default function PageTransition() {
         transition={{ duration: 1, ease: [0.44, 0.38, 0, 0.99] }}
         className="relative z-20 text-5xl font-bold text-center text-black"
       >
-        {selectedName.split('').map((letter: string, index: number) => (
-          <motion.span
-            initial={{ y: 0 }}
-            className="relative inline-flex overflow-hidden"
-            key={letter + index}
-          >
+        {selectedName()
+          .split('')
+          .map((letter: string, index: number) => (
             <motion.span
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              transition={{
-                type: 'spring',
-                delay: index * 0.05,
-                duration: 0.2,
-              }}
-              className="relative block"
+              initial={{ y: 0 }}
+              className="relative inline-flex overflow-hidden"
+              key={letter + index}
             >
-              {letter === ' ' ? '\u00A0' : letter}
+              <motion.span
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                transition={{
+                  type: 'spring',
+                  delay: index * 0.05,
+                  duration: 0.2,
+                }}
+                className="relative block"
+              >
+                {letter === ' ' ? '\u00A0' : letter}
+              </motion.span>
             </motion.span>
-          </motion.span>
-        ))}
+          ))}
       </motion.p>
       <CircleBottom animate={animationControls} />
     </motion.div>

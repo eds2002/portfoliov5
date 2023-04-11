@@ -22,6 +22,7 @@ body {
   min-height: '100%';
   height: 'auto';
   overflow: auto;
+  @apply selection:bg-black selection:text-white;
 }
 
 a {
@@ -37,14 +38,14 @@ p {
   @apply overflow-hidden;
 }
 
-p span {
+/* p span {
   @apply block
   translate-y-full
   transition-all
   ease-[cubic-bezier(.45,0,0,1)]
   duration-1000;
-}
+} */
 
-p span.active {
+/* p span.active {
   @apply translate-y-0;
-}
+} */

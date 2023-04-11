@@ -6,6 +6,7 @@ import { socials } from '../data/socials'
 import MagneticButton from './elements/MagneticButton'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import { useRouter } from 'next/router'
+import Header from './Header'
 
 const Hero: React.FC = () => {
   const router = useRouter()
@@ -27,6 +28,7 @@ const Hero: React.FC = () => {
       initial="hidden"
       animate="show"
     >
+      <Header />
       <p className="mb-4 text-lg opacity-70">
         {intro.split(' ').map((letter, index) => (
           <motion.span
